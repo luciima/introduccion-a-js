@@ -29,7 +29,7 @@ function hallarMenorEdad(listaEdades) {
 function hallarPromedio(listaEdades) {
     let sumaEdades = 0;
     for (let edad of listaEdades) {
-        sumaEdades += edad;
+        sumaEdades += Number(edad);
     }
     return sumaEdades / listaEdades.length;
 }
@@ -43,13 +43,36 @@ function crearLabel(i) {
 
 function crearInput(i) {
     const input = document.createElement("input");
-    input.class = "edades-integrantes";
+    input.className = "edades-integrantes";
     input.id = `edad-integrante-${i}`;
     input.type = "number";
     return input;
 }
 
+function crearBotonCalcular() {
+    const $botonCalcular = document.createElement("button");
+    $botonCalcular.id = "boton-calcular";
+    $botonCalcular.textContent = "Calcular";
+    return $botonCalcular;
+}
+
+function mostrarResultados(resultados) {
+    for (let key in resultados) {
+        document.querySelector(`#${key}`).textContent += ` ${resultados[key]}.`;
+    }
+    document.querySelector("strong").className = "";
+}
+
+function pasarNodelistAArray(nodelist) {
+    let array = [];
+    for (let i = 0; i < nodelist.length; i++) {
+        array.push(nodelist[i].value);
+    }
+    return array;
+}
+
 const $botonOK = document.querySelector("#boton-OK");
+const $botonCalcular = crearBotonCalcular();
 
 $botonOK.onclick = function () {
     const cantidadIntegrantes = Number(
@@ -65,5 +88,18 @@ $botonOK.onclick = function () {
         $formulario.insertBefore(input, $resultados);
         $formulario.insertBefore(br, $resultados);
     }
+    $formulario.insertBefore($botonCalcular, $resultados);
+    return false;
+};
+
+$botonCalcular.onclick = function () {
+    let edadesIntegrantes = document.querySelectorAll(".edades-integrantes");
+    edadesIntegrantes = pasarNodelistAArray(edadesIntegrantes);
+    const resultados = {
+        "resultado-mayor-edad": hallarMayorEdad(edadesIntegrantes),
+        "resultado-menor-edad": hallarMenorEdad(edadesIntegrantes),
+        "resultado-edad-promedio": hallarPromedio(edadesIntegrantes),
+    };
+    mostrarResultados(resultados);
     return false;
 };
