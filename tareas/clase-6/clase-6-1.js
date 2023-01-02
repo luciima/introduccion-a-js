@@ -33,3 +33,37 @@ function hallarPromedio(listaEdades) {
     }
     return sumaEdades / listaEdades.length;
 }
+
+function crearLabel(i) {
+    const etiqueta = document.createElement("label");
+    etiqueta.setAttribute("for", `edad-integrante-${i}`);
+    etiqueta.innerText = `Edad de integrante ${i}`;
+    return etiqueta;
+}
+
+function crearInput(i) {
+    const input = document.createElement("input");
+    input.class = "edades-integrantes";
+    input.id = `edad-integrante-${i}`;
+    input.type = "number";
+    return input;
+}
+
+const $botonOK = document.querySelector("#boton-OK");
+
+$botonOK.onclick = function () {
+    const cantidadIntegrantes = Number(
+        document.querySelector("#cantidad-integrantes").value
+    );
+    const $formulario = document.querySelector("form");
+    const $resultados = document.querySelector("strong");
+    for (let i = 1; i <= cantidadIntegrantes; i++) {
+        const etiqueta = crearLabel(i);
+        const input = crearInput(i);
+        const br = document.createElement("br");
+        $formulario.insertBefore(etiqueta, $resultados);
+        $formulario.insertBefore(input, $resultados);
+        $formulario.insertBefore(br, $resultados);
+    }
+    return false;
+};
