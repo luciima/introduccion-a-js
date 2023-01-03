@@ -7,7 +7,7 @@ Punto bonus: Crear un botón para "empezar de nuevo" que empiece el proceso nuev
 */
 
 function hallarMayorEdad(listaEdades) {
-    let mayorEdad = listaEdades[0];
+    let mayorEdad = 0;
     for (let edad of listaEdades) {
         if (edad > mayorEdad) {
             mayorEdad = edad;
@@ -17,7 +17,7 @@ function hallarMayorEdad(listaEdades) {
 }
 
 function hallarMenorEdad(listaEdades) {
-    let menorEdad = listaEdades[0];
+    let menorEdad = 0;
     for (let edad of listaEdades) {
         if (edad < menorEdad) {
             menorEdad = edad;
@@ -71,14 +71,23 @@ function pasarNodelistAArray(nodelist) {
     return array;
 }
 
+function crearBotonReset() {
+    const $botonReset = document.createElement("button");
+    $botonReset.id = "boton-reset";
+    $botonReset.textContent = "Empezar de nuevo";
+    $botonReset.className = "oculto";
+    return $botonReset;
+}
+
 const $botonOK = document.querySelector("#boton-OK");
 const $botonCalcular = crearBotonCalcular();
+const $botonReset = crearBotonReset();
+const $formulario = document.querySelector("form");
 
 $botonOK.onclick = function () {
     const cantidadIntegrantes = Number(
         document.querySelector("#cantidad-integrantes").value
     );
-    const $formulario = document.querySelector("form");
     const $resultados = document.querySelector("strong");
     for (let i = 1; i <= cantidadIntegrantes; i++) {
         const etiqueta = crearLabel(i);
@@ -101,5 +110,7 @@ $botonCalcular.onclick = function () {
         "resultado-edad-promedio": hallarPromedio(edadesIntegrantes),
     };
     mostrarResultados(resultados);
+    $formulario.appendChild($botonReset);
+    $botonReset.className = "";
     return false;
 };
