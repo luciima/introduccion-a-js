@@ -7,7 +7,7 @@ Punto bonus: Crear un botón para "empezar de nuevo" que empiece el proceso nuev
 */
 
 function hallarMayorEdad(listaEdades) {
-    let mayorEdad = 0;
+    let mayorEdad = Number(listaEdades[0]);
     for (let edad of listaEdades) {
         if (edad > mayorEdad) {
             mayorEdad = edad;
@@ -17,7 +17,7 @@ function hallarMayorEdad(listaEdades) {
 }
 
 function hallarMenorEdad(listaEdades) {
-    let menorEdad = 0;
+    let menorEdad = Number(listaEdades[0]);
     for (let edad of listaEdades) {
         if (edad < menorEdad) {
             menorEdad = edad;
@@ -79,25 +79,44 @@ function crearBotonReset() {
     return $botonReset;
 }
 
+function borrarInputsAnteriores($form) {
+    while ($form.lastElementChild !== $botonOK) {
+        $form.lastElementChild.remove();
+    }
+    $resultados.className = "oculto";
+    $botonCalcular.removeAttribute("disabled");
+}
+
+function resetearListaResultados() {
+    document.querySelector("#resultado-mayor-edad").textContent =
+        "La mayor edad en su familia es ";
+    document.querySelector("#resultado-menor-edad").textContent =
+        "La menor edad en su familia es ";
+    document.querySelector("#resultado-edad-promedio").textContent =
+        "La edad promedio en su familia es ";
+}
+
 const $botonOK = document.querySelector("#boton-OK");
 const $botonCalcular = crearBotonCalcular();
 const $botonReset = crearBotonReset();
 const $formulario = document.querySelector("form");
+const $resultados = document.querySelector("strong");
 
 $botonOK.onclick = function () {
     const cantidadIntegrantes = Number(
         document.querySelector("#cantidad-integrantes").value
     );
-    const $resultados = document.querySelector("strong");
     for (let i = 1; i <= cantidadIntegrantes; i++) {
         const etiqueta = crearLabel(i);
         const input = crearInput(i);
         const br = document.createElement("br");
-        $formulario.insertBefore(etiqueta, $resultados);
-        $formulario.insertBefore(input, $resultados);
-        $formulario.insertBefore(br, $resultados);
+        $formulario.appendChild(br);
+        $formulario.appendChild(etiqueta);
+        $formulario.appendChild(input);
     }
-    $formulario.insertBefore($botonCalcular, $resultados);
+    $formulario.appendChild(document.createElement("br"));
+    $formulario.appendChild($botonCalcular);
+    $botonOK.disabled = true;
     return false;
 };
 
@@ -112,5 +131,13 @@ $botonCalcular.onclick = function () {
     mostrarResultados(resultados);
     $formulario.appendChild($botonReset);
     $botonReset.className = "";
+    $botonCalcular.disabled = true;
+    return false;
+};
+
+$botonReset.onclick = function () {
+    borrarInputsAnteriores($formulario);
+    resetearListaResultados();
+    $botonOK.removeAttribute("disabled");
     return false;
 };
