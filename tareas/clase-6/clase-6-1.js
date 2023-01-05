@@ -6,47 +6,46 @@ Al hacer click en "calcular", mostrar en un elemento pre-existente la mayor edad
 Punto bonus: Crear un botón para "empezar de nuevo" que empiece el proceso nuevamente, borrando los inputs ya creados (investigar cómo en MDN).
 */
 
-function hallarMayorEdad(listaEdades) {
-    let mayorEdad = Number(listaEdades[0]);
-    for (let edad of listaEdades) {
-        if (edad > mayorEdad) {
-            mayorEdad = edad;
+function hallarMayorNumero(numeros) {
+    let mayorNumero = Number(numeros[0]);
+    for (let numero of numeros) {
+        if (numero > mayorNumero) {
+            mayorNumero = numero;
         }
     }
-    return mayorEdad;
+    return mayorNumero;
 }
 
-function hallarMenorEdad(listaEdades) {
-    let menorEdad = Number(listaEdades[0]);
-    for (let edad of listaEdades) {
-        if (edad < menorEdad) {
-            menorEdad = edad;
+function hallarMenorNumero(numeros) {
+    let menorNumero = Number(numeros[0]);
+    for (let numero of numeros) {
+        if (numero < numeros) {
+            menorNumero = numero;
         }
     }
-    return menorEdad;
+    return menorNumero;
 }
 
-function hallarPromedio(listaEdades) {
-    let sumaEdades = 0;
-    for (let edad of listaEdades) {
-        sumaEdades += Number(edad);
+function hallarPromedio(numeros) {
+    let suma = 0;
+    for (let numero of numeros) {
+        suma += Number(numero);
     }
-    return sumaEdades / listaEdades.length;
+    return suma / numeros.length;
 }
 
-function crearLabel(i) {
+function crearIntegrante($formulario, numeroIntegrante) {
     const etiqueta = document.createElement("label");
-    etiqueta.setAttribute("for", `edad-integrante-${i}`);
-    etiqueta.innerText = `Edad de integrante ${i}`;
-    return etiqueta;
-}
-
-function crearInput(i) {
+    etiqueta.setAttribute("for", `edad-integrante-${numeroIntegrante}`);
+    etiqueta.innerText = `Edad de integrante ${numeroIntegrante}`;
     const input = document.createElement("input");
     input.className = "edades-integrantes";
-    input.id = `edad-integrante-${i}`;
+    input.id = `edad-integrante-${numeroIntegrante}`;
     input.type = "number";
-    return input;
+    const br = document.createElement("br");
+    $formulario.appendChild(br);
+    $formulario.appendChild(etiqueta);
+    $formulario.appendChild(input);
 }
 
 function crearBotonCalcular() {
@@ -63,10 +62,10 @@ function mostrarResultados(resultados) {
     document.querySelector("strong").className = "";
 }
 
-function pasarNodelistAArray(nodelist) {
+function extraerNumeros(elementos) {
     let array = [];
-    for (let i = 0; i < nodelist.length; i++) {
-        array.push(nodelist[i].value);
+    for (let i = 0; i < elementos.length; i++) {
+        array.push(elementos[i].value);
     }
     return array;
 }
@@ -92,11 +91,11 @@ function resetearListaResultados() {
         "La mayor edad en su familia es ";
     document.querySelector("#resultado-menor-edad").textContent =
         "La menor edad en su familia es ";
-    document.querySelector("#resultado-edad-promedio").textContent =
+    document.querySelector("#resultado-promedio-edad").textContent =
         "La edad promedio en su familia es ";
 }
 
-const $botonOK = document.querySelector("#boton-OK");
+const $botonOK = document.querySelector("#boton-ok");
 const $botonCalcular = crearBotonCalcular();
 const $botonReset = crearBotonReset();
 const $formulario = document.querySelector("form");
@@ -107,12 +106,7 @@ $botonOK.onclick = function () {
         document.querySelector("#cantidad-integrantes").value
     );
     for (let i = 1; i <= cantidadIntegrantes; i++) {
-        const etiqueta = crearLabel(i);
-        const input = crearInput(i);
-        const br = document.createElement("br");
-        $formulario.appendChild(br);
-        $formulario.appendChild(etiqueta);
-        $formulario.appendChild(input);
+        crearIntegrante($formulario, i);
     }
     $formulario.appendChild(document.createElement("br"));
     $formulario.appendChild($botonCalcular);
@@ -122,11 +116,11 @@ $botonOK.onclick = function () {
 
 $botonCalcular.onclick = function () {
     let edadesIntegrantes = document.querySelectorAll(".edades-integrantes");
-    edadesIntegrantes = pasarNodelistAArray(edadesIntegrantes);
+    edadesIntegrantes = extraerNumeros(edadesIntegrantes);
     const resultados = {
-        "resultado-mayor-edad": hallarMayorEdad(edadesIntegrantes),
-        "resultado-menor-edad": hallarMenorEdad(edadesIntegrantes),
-        "resultado-edad-promedio": hallarPromedio(edadesIntegrantes),
+        "resultado-mayor-edad": hallarMayorNumero(edadesIntegrantes),
+        "resultado-menor-edad": hallarMenorNumero(edadesIntegrantes),
+        "resultado-promedio-edad": hallarPromedio(edadesIntegrantes),
     };
     mostrarResultados(resultados);
     $formulario.appendChild($botonReset);
