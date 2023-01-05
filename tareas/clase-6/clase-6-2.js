@@ -40,3 +40,45 @@ function hallarPromedio(numeros) {
     }
     return suma / numeros.length;
 }
+
+function crearIntegrante($formulario, numeroIntegrante) {
+    const etiqueta = document.createElement("label");
+    etiqueta.setAttribute("for", `integrante-${numeroIntegrante}`);
+    etiqueta.innerText = `Salario ${numeroIntegrante}`;
+    const input = document.createElement("input");
+    input.className = "salario-integrante";
+    input.id = `integrante-${numeroIntegrante}`;
+    input.type = "number";
+    const br = document.createElement("br");
+    $formulario.appendChild(br);
+    $formulario.appendChild(etiqueta);
+    $formulario.appendChild(input);
+}
+
+function quitarIntegrante($formulario) {
+    $formulario.lastElementChild.remove();
+    $formulario.lastElementChild.remove();
+    $formulario.lastElementChild.remove();
+}
+
+const $botonAgregar = document.querySelector("#boton-agregar-integrante");
+const $botonQuitar = document.querySelector("#boton-quitar-integrante");
+const $botonCalcular = document.querySelector("#boton-calcular");
+const $formulario = document.querySelector("form");
+$botonAgregar.onclick = function () {
+    const siguienteIntegrante =
+        document.querySelectorAll(".salario-integrante").length + 1;
+    crearIntegrante($formulario, siguienteIntegrante);
+    if ($botonQuitar.disabled === true) {
+        $botonQuitar.removeAttribute("disabled");
+    }
+    return false;
+};
+$botonQuitar.onclick = function () {
+    quitarIntegrante($formulario);
+    const cantidadIntegrantes = document.querySelectorAll(".salario-integrante").length;
+    if (cantidadIntegrantes === 1) {
+        $botonQuitar.disabled = true;
+    }
+    return false;
+};
