@@ -65,6 +65,16 @@ function quitarIntegrante($formulario) {
     $formulario.lastElementChild.remove();
 }
 
+function extraerNumerosNoNulos(elementos) {
+    const numeros = [];
+    for (let elemento of elementos) {
+        if (Number(elemento.value) !== 0) {
+            numeros.push(Number(elemento.value));
+        }
+    }
+    return numeros;
+}
+
 const $botonAgregar = document.querySelector("#boton-agregar-integrante");
 const $botonQuitar = document.querySelector("#boton-quitar-integrante");
 const $botonCalcular = document.querySelector("#boton-calcular");
@@ -84,5 +94,17 @@ $botonQuitar.onclick = function () {
     if (cantidadIntegrantes === 1) {
         $botonQuitar.disabled = true;
     }
+    return false;
+};
+$botonCalcular.onclick = function () {
+    let $salariosAnuales = document.querySelectorAll(".salario-integrante");
+    let salariosAnuales = extraerNumerosNoNulos($salariosAnuales);
+    let salariosMensuales = calcularSalariosMensuales(salariosAnuales);
+    const resultados = {
+        "mayor-salario-anual": hallarMayorNumero(salariosAnuales),
+        "menor-salario-anual": hallarMenorNumero(salariosAnuales),
+        "promedio-salario-anual": hallarPromedio(salariosAnuales),
+        "promedio-salario-mensual": hallarPromedio(salariosMensuales),
+    };
     return false;
 };
