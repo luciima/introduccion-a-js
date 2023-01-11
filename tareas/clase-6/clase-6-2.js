@@ -82,6 +82,17 @@ function mostrarResultados(resultados) {
     document.querySelector("strong").className = "";
 }
 
+function resetearResultados() {
+    document.querySelector("#mayor-salario-anual").textContent =
+        "El mayor salario anual en su familia es ";
+    document.querySelector("#menor-salario-anual").textContent =
+        "El menor salario anual en su familia es ";
+    document.querySelector("#promedio-salario-anual").textContent =
+        "El salario anual promedio en su familia es de ";
+    document.querySelector("#promedio-salario-mensual").textContent =
+        "El salario mensual promedio en su familia es de ";
+}
+
 const $botonAgregar = document.querySelector("#boton-agregar-integrante");
 const $botonQuitar = document.querySelector("#boton-quitar-integrante");
 const $botonCalcular = document.querySelector("#boton-calcular");
@@ -133,14 +144,3 @@ $botonReset.onclick = function () {
     $resultado.className = "oculto";
     return false;
 };
-
-function resetearResultados() {
-    document.querySelector("#mayor-salario-anual").textContent =
-        "El mayor salario anual en su familia es ";
-    document.querySelector("#menor-salario-anual").textContent =
-        "El menor salario anual en su familia es ";
-    document.querySelector("#promedio-salario-anual").textContent =
-        "El salario anual promedio en su familia es de ";
-    document.querySelector("#promedio-salario-mensual").textContent =
-        "El salario mensual promedio en su familia es de ";
-}
