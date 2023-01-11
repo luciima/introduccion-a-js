@@ -75,6 +75,13 @@ function extraerNumerosNoNulos(elementos) {
     return numeros;
 }
 
+function mostrarResultados(resultados) {
+    for (let key in resultados) {
+        document.querySelector(`#${key}`).textContent += ` ${resultados[key]}.`;
+    }
+    document.querySelector("strong").className = "";
+}
+
 const $botonAgregar = document.querySelector("#boton-agregar-integrante");
 const $botonQuitar = document.querySelector("#boton-quitar-integrante");
 const $botonCalcular = document.querySelector("#boton-calcular");
@@ -106,5 +113,6 @@ $botonCalcular.onclick = function () {
         "promedio-salario-anual": hallarPromedio(salariosAnuales),
         "promedio-salario-mensual": hallarPromedio(salariosMensuales),
     };
+    mostrarResultados(resultados);
     return false;
 };
