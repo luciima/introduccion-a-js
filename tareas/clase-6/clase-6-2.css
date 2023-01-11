@@ -15,3 +15,7 @@ body {
 form {
     padding: 1rem;
 }
+
+p {
+    text-align: justify;
+}
