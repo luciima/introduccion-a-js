@@ -85,7 +85,9 @@ function mostrarResultados(resultados) {
 const $botonAgregar = document.querySelector("#boton-agregar-integrante");
 const $botonQuitar = document.querySelector("#boton-quitar-integrante");
 const $botonCalcular = document.querySelector("#boton-calcular");
+const $botonReset = document.querySelector("#boton-reset");
 const $formulario = document.querySelector("form");
+const $resultado = document.querySelector("#resultados");
 $botonAgregar.onclick = function () {
     const siguienteIntegrante =
         document.querySelectorAll(".salario-integrante").length + 1;
@@ -114,5 +116,31 @@ $botonCalcular.onclick = function () {
         "promedio-salario-mensual": hallarPromedio(salariosMensuales),
     };
     mostrarResultados(resultados);
+    $botonAgregar.disabled = true;
+    $botonQuitar.disabled = true;
+    $botonCalcular.disabled = true;
+    $botonReset.className = "";
     return false;
 };
+$botonReset.onclick = function () {
+    while (document.querySelectorAll(".salario-integrante").length !== 1) {
+        quitarIntegrante($formulario);
+    }
+    $botonAgregar.removeAttribute("disabled");
+    $botonCalcular.removeAttribute("disabled");
+    $botonReset.className = "oculto";
+    resetearResultados();
+    $resultado.className = "oculto";
+    return false;
+};
+
+function resetearResultados() {
+    document.querySelector("#mayor-salario-anual").textContent =
+        "El mayor salario anual en su familia es ";
+    document.querySelector("#menor-salario-anual").textContent =
+        "El menor salario anual en su familia es ";
+    document.querySelector("#promedio-salario-anual").textContent =
+        "El salario anual promedio en su familia es de ";
+    document.querySelector("#promedio-salario-mensual").textContent =
+        "El salario mensual promedio en su familia es de ";
+}
