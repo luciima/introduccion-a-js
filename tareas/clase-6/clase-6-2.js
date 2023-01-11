@@ -8,9 +8,13 @@ menor salario anual, salario anual promedio y salario mensual promedio.
 Punto bonus: si hay inputs vacíos, ignorarlos en el cálculo (no contarlos como 0).
 */
 
-function calcularSalarioMensual(salarioAnual) {
+function calcularSalariosMensuales(salariosAnuales) {
     const MESES_ANIO = 12;
-    return salarioAnual / MESES_ANIO;
+    let salariosMensuales = [];
+    for (let salarioAnual of salariosAnuales) {
+        salariosMensuales.push(salarioAnual / MESES_ANIO);
+    }
+    return salariosMensuales;
 }
 
 function hallarMayorNumero(numeros) {
@@ -26,7 +30,7 @@ function hallarMayorNumero(numeros) {
 function hallarMenorNumero(numeros) {
     let menorNumero = Number(numeros[0]);
     for (let numero of numeros) {
-        if (numero < numeros) {
+        if (numero < menorNumero) {
             menorNumero = numero;
         }
     }
