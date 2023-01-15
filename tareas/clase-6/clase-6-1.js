@@ -19,7 +19,7 @@ function hallarMayorNumero(numeros) {
 function hallarMenorNumero(numeros) {
     let menorNumero = Number(numeros[0]);
     for (let numero of numeros) {
-        if (numero < numeros) {
+        if (numero < menorNumero) {
             menorNumero = numero;
         }
     }
