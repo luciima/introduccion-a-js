@@ -6,60 +6,43 @@ Al hacer click en "calcular", mostrar en un elemento pre-existente la mayor edad
 Punto bonus: Crear un botón para "empezar de nuevo" que empiece el proceso nuevamente, borrando los inputs ya creados (investigar cómo en MDN).
 */
 
-function hallarMayorNumero(numeros) {
-    let mayorNumero = Number(numeros[0]);
-    for (let numero of numeros) {
-        if (numero > mayorNumero) {
-            mayorNumero = numero;
-        }
-    }
-    return mayorNumero;
-}
-
-function hallarMenorNumero(numeros) {
-    let menorNumero = Number(numeros[0]);
-    for (let numero of numeros) {
-        if (numero < numeros) {
-            menorNumero = numero;
-        }
-    }
-    return menorNumero;
-}
-
-function hallarPromedio(numeros) {
-    let suma = 0;
-    for (let numero of numeros) {
-        suma += Number(numero);
-    }
-    return suma / numeros.length;
-}
-
 function crearIntegrante($formulario, numeroIntegrante) {
+    const contenedor = document.createElement("div");
+    contenedor.classList.add(`edades-integrantes`);
     const etiqueta = document.createElement("label");
     etiqueta.setAttribute("for", `edad-integrante-${numeroIntegrante}`);
+    etiqueta.classList.add("form-label");
     etiqueta.innerText = `Edad de integrante ${numeroIntegrante}`;
     const input = document.createElement("input");
-    input.className = "edades-integrantes";
+    input.classList.add("edades-integrantes", "form-control");
     input.id = `edad-integrante-${numeroIntegrante}`;
     input.type = "number";
-    const br = document.createElement("br");
-    $formulario.appendChild(br);
-    $formulario.appendChild(etiqueta);
-    $formulario.appendChild(input);
+    contenedor.appendChild(etiqueta);
+    contenedor.appendChild(input);
+    $formulario.appendChild(contenedor);
 }
 
 function crearBotonCalcular() {
     const $botonCalcular = document.createElement("button");
     $botonCalcular.id = "boton-calcular";
     $botonCalcular.textContent = "Calcular";
+    $botonCalcular.classList.add("btn", "btn-primary");
     return $botonCalcular;
+}
+
+function ocultarElemento(elemento) {
+    elemento.classList.add("oculto");
+}
+
+function mostrarElemento(elemento) {
+    elemento.classList.remove("oculto");
 }
 
 function mostrarResultados(resultados) {
     for (let key in resultados) {
         document.querySelector(`#${key}`).textContent += ` ${resultados[key]}.`;
     }
-    document.querySelector("strong").className = "";
+    mostrarElemento($resultados);
 }
 
 function extraerNumeros(elementos) {
@@ -74,49 +57,75 @@ function crearBotonReset() {
     const $botonReset = document.createElement("button");
     $botonReset.id = "boton-reset";
     $botonReset.textContent = "Empezar de nuevo";
-    $botonReset.className = "oculto";
+    ocultarElemento($botonReset);
+    $botonReset.classList.add("btn", "btn-primary");
     return $botonReset;
 }
 
-function borrarInputsAnteriores($form) {
-    while ($form.lastElementChild !== $botonOK) {
-        $form.lastElementChild.remove();
-    }
-    $resultados.className = "oculto";
+function borrarInputsAnteriores() {
+    const inputsAnteriores = document.querySelectorAll(".edades-integrantes");
+    inputsAnteriores.forEach(function (input) {
+        input.remove();
+    });
+    ocultarElemento($resultados);
+    $botonCalcular.remove();
+    $botonReset.remove();
     $botonCalcular.removeAttribute("disabled");
 }
 
-function resetearListaResultados() {
-    document.querySelector("#resultado-mayor-edad").textContent =
-        "La mayor edad en su familia es ";
-    document.querySelector("#resultado-menor-edad").textContent =
-        "La menor edad en su familia es ";
-    document.querySelector("#resultado-promedio-edad").textContent =
-        "La edad promedio en su familia es ";
+function resetearListaResultados(resultadosIniciales) {
+    for (let key in resultadosIniciales) {
+        document.querySelector(`#${key}`).textContent = `${resultadosIniciales[key]}`;
+    }
+}
+
+function manejarErrores(errores) {
+    for (let error in errores) {
+        if (errores[error] !== "") {
+            document.querySelector(`#${error}`).classList.add("is-invalid");
+        } else {
+            document.querySelector(`#${error}`).classList.remove("is-invalid");
+        }
+    }
 }
 
 const $botonOK = document.querySelector("#boton-ok");
 const $botonCalcular = crearBotonCalcular();
 const $botonReset = crearBotonReset();
 const $formulario = document.querySelector("form");
-const $resultados = document.querySelector("strong");
+const $resultados = document.querySelector("#lista-resultados");
+const $contenedorCantidadIntegrantes = document.querySelector(".cantidad-integrantes");
 
 $botonOK.onclick = function () {
-    const cantidadIntegrantes = Number(
-        document.querySelector("#cantidad-integrantes").value
-    );
+    const cantidadIntegrantes = document.querySelector("#cantidad-integrantes").value;
+    let errores = {
+        "cantidad-integrantes": validarCantidadIntegrantes(cantidadIntegrantes),
+    };
+    manejarErrores(errores);
+    let hayErrores = document.querySelector(".is-invalid");
+    if (hayErrores) {
+        return false;
+    }
     for (let i = 1; i <= cantidadIntegrantes; i++) {
         crearIntegrante($formulario, i);
     }
-    $formulario.appendChild(document.createElement("br"));
     $formulario.appendChild($botonCalcular);
-    $botonOK.disabled = true;
+    ocultarElemento($contenedorCantidadIntegrantes);
     return false;
 };
 
 $botonCalcular.onclick = function () {
-    let edadesIntegrantes = document.querySelectorAll(".edades-integrantes");
+    let edadesIntegrantes = document.querySelectorAll(".edades-integrantes input");
+    let errores = {};
+    edadesIntegrantes.forEach(function (edad) {
+        errores[edad.id] = validarEdad(edad.value);
+    });
     edadesIntegrantes = extraerNumeros(edadesIntegrantes);
+    manejarErrores(errores);
+    hayErrores = document.querySelector(".is-invalid");
+    if (hayErrores) {
+        return false;
+    }
     const resultados = {
         "resultado-mayor-edad": hallarMayorNumero(edadesIntegrantes),
         "resultado-menor-edad": hallarMenorNumero(edadesIntegrantes),
@@ -124,14 +133,18 @@ $botonCalcular.onclick = function () {
     };
     mostrarResultados(resultados);
     $formulario.appendChild($botonReset);
-    $botonReset.className = "";
-    $botonCalcular.disabled = true;
+    mostrarElemento($botonReset);
     return false;
 };
 
 $botonReset.onclick = function () {
-    borrarInputsAnteriores($formulario);
-    resetearListaResultados();
-    $botonOK.removeAttribute("disabled");
+    borrarInputsAnteriores();
+    const resultadosIniciales = {
+        "resultado-mayor-edad": "La mayor edad en su familia es ",
+        "resultado-menor-edad": "La menor edad en su familia es ",
+        "resultado-promedio-edad": "La edad promedio en su familia es ",
+    };
+    resetearListaResultados(resultadosIniciales);
+    mostrarElemento($contenedorCantidadIntegrantes);
     return false;
 };
