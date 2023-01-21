@@ -6,34 +6,6 @@ Al hacer click en "calcular", mostrar en un elemento pre-existente la mayor edad
 Punto bonus: Crear un botón para "empezar de nuevo" que empiece el proceso nuevamente, borrando los inputs ya creados (investigar cómo en MDN).
 */
 
-function hallarMayorNumero(numeros) {
-    let mayorNumero = Number(numeros[0]);
-    for (let numero of numeros) {
-        if (numero > mayorNumero) {
-            mayorNumero = numero;
-        }
-    }
-    return mayorNumero;
-}
-
-function hallarMenorNumero(numeros) {
-    let menorNumero = Number(numeros[0]);
-    for (let numero of numeros) {
-        if (numero < menorNumero) {
-            menorNumero = numero;
-        }
-    }
-    return menorNumero;
-}
-
-function hallarPromedio(numeros) {
-    let suma = 0;
-    for (let numero of numeros) {
-        suma += Number(numero);
-    }
-    return suma / numeros.length;
-}
-
 function crearIntegrante($formulario, numeroIntegrante) {
     const etiqueta = document.createElement("label");
     etiqueta.setAttribute("for", `edad-integrante-${numeroIntegrante}`);
