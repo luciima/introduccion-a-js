@@ -86,13 +86,10 @@ function borrarInputsAnteriores($form) {
     $botonCalcular.removeAttribute("disabled");
 }
 
-function resetearListaResultados() {
-    document.querySelector("#resultado-mayor-edad").textContent =
-        "La mayor edad en su familia es ";
-    document.querySelector("#resultado-menor-edad").textContent =
-        "La menor edad en su familia es ";
-    document.querySelector("#resultado-promedio-edad").textContent =
-        "La edad promedio en su familia es ";
+function resetearListaResultados(resultadosIniciales) {
+    for (let key in resultadosIniciales) {
+        document.querySelector(`#${key}`).textContent = `${resultadosIniciales[key]}`;
+    }
 }
 
 const $botonOK = document.querySelector("#boton-ok");
@@ -131,7 +128,12 @@ $botonCalcular.onclick = function () {
 
 $botonReset.onclick = function () {
     borrarInputsAnteriores($formulario);
-    resetearListaResultados();
+    const resultadosIniciales = {
+        "resultado-mayor-edad": "La mayor edad en su familia es ",
+        "resultado-menor-edad": "La menor edad en su familia es ",
+        "resultado-promedio-edad": "La edad promedio en su familia es ",
+    };
+    resetearListaResultados(resultadosIniciales);
     $botonOK.removeAttribute("disabled");
     return false;
 };
