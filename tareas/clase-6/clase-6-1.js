@@ -94,6 +94,7 @@ const $botonCalcular = crearBotonCalcular();
 const $botonReset = crearBotonReset();
 const $formulario = document.querySelector("form");
 const $resultados = document.querySelector("#lista-resultados");
+const $contenedorCantidadIntegrantes = document.querySelector(".cantidad-integrantes");
 
 $botonOK.onclick = function () {
     const cantidadIntegrantes = document.querySelector("#cantidad-integrantes").value;
@@ -109,7 +110,7 @@ $botonOK.onclick = function () {
         crearIntegrante($formulario, i);
     }
     $formulario.appendChild($botonCalcular);
-    $botonOK.disabled = true;
+    ocultarElemento($contenedorCantidadIntegrantes);
     return false;
 };
 
@@ -133,7 +134,6 @@ $botonCalcular.onclick = function () {
     mostrarResultados(resultados);
     $formulario.appendChild($botonReset);
     mostrarElemento($botonReset);
-    $botonCalcular.disabled = true;
     return false;
 };
 
@@ -145,6 +145,6 @@ $botonReset.onclick = function () {
         "resultado-promedio-edad": "La edad promedio en su familia es ",
     };
     resetearListaResultados(resultadosIniciales);
-    $botonOK.removeAttribute("disabled");
+    mostrarElemento($contenedorCantidadIntegrantes);
     return false;
 };
