@@ -75,6 +75,16 @@ function resetearListaResultados(resultadosIniciales) {
     }
 }
 
+function manejarErrores(errores) {
+    for (let error in errores) {
+        if (errores[error] !== "") {
+            document.querySelector(`#${error}`).classList.add("is-invalid");
+        } else {
+            document.querySelector(`#${error}`).classList.remove("is-invalid");
+        }
+    }
+}
+
 const $botonOK = document.querySelector("#boton-ok");
 const $botonCalcular = crearBotonCalcular();
 const $botonReset = crearBotonReset();
@@ -82,9 +92,15 @@ const $formulario = document.querySelector("form");
 const $resultados = document.querySelector("strong");
 
 $botonOK.onclick = function () {
-    const cantidadIntegrantes = Number(
-        document.querySelector("#cantidad-integrantes").value
-    );
+    const cantidadIntegrantes = document.querySelector("#cantidad-integrantes").value;
+    let errores = {
+        "cantidad-integrantes": validarCantidadIntegrantes(cantidadIntegrantes),
+    };
+    manejarErrores(errores);
+    let hayErrores = document.querySelector(".is-invalid");
+    if (hayErrores) {
+        return false;
+    }
     for (let i = 1; i <= cantidadIntegrantes; i++) {
         crearIntegrante($formulario, i);
     }
@@ -97,6 +113,15 @@ $botonOK.onclick = function () {
 $botonCalcular.onclick = function () {
     let edadesIntegrantes = document.querySelectorAll(".edades-integrantes");
     edadesIntegrantes = extraerNumeros(edadesIntegrantes);
+    let errores = {};
+    for (let i = 0; i < edadesIntegrantes.length; i++) {
+        errores[`edad-integrante-${i + 1}`] = validarEdad(edadesIntegrantes[i]);
+    }
+    manejarErrores(errores);
+    hayErrores = document.querySelector(".is-invalid");
+    if (hayErrores) {
+        return false;
+    }
     const resultados = {
         "resultado-mayor-edad": hallarMayorNumero(edadesIntegrantes),
         "resultado-menor-edad": hallarMenorNumero(edadesIntegrantes),
