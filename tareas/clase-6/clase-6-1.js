@@ -9,9 +9,10 @@ Punto bonus: Crear un botón para "empezar de nuevo" que empiece el proceso nuev
 function crearIntegrante($formulario, numeroIntegrante) {
     const etiqueta = document.createElement("label");
     etiqueta.setAttribute("for", `edad-integrante-${numeroIntegrante}`);
+    etiqueta.classList.add("form-label");
     etiqueta.innerText = `Edad de integrante ${numeroIntegrante}`;
     const input = document.createElement("input");
-    input.className = "edades-integrantes";
+    input.classList.add("edades-integrantes", "form-control");
     input.id = `edad-integrante-${numeroIntegrante}`;
     input.type = "number";
     const br = document.createElement("br");
@@ -24,14 +25,23 @@ function crearBotonCalcular() {
     const $botonCalcular = document.createElement("button");
     $botonCalcular.id = "boton-calcular";
     $botonCalcular.textContent = "Calcular";
+    $botonCalcular.classList.add("btn", "btn-primary");
     return $botonCalcular;
+}
+
+function ocultarElemento(elemento) {
+    elemento.classList.add("oculto");
+}
+
+function mostrarElemento(elemento) {
+    elemento.classList.remove("oculto");
 }
 
 function mostrarResultados(resultados) {
     for (let key in resultados) {
         document.querySelector(`#${key}`).textContent += ` ${resultados[key]}.`;
     }
-    document.querySelector("strong").className = "";
+    mostrarElemento(document.querySelector("strong"));
 }
 
 function extraerNumeros(elementos) {
@@ -46,7 +56,8 @@ function crearBotonReset() {
     const $botonReset = document.createElement("button");
     $botonReset.id = "boton-reset";
     $botonReset.textContent = "Empezar de nuevo";
-    $botonReset.className = "oculto";
+    ocultarElemento($botonReset);
+    $botonReset.classList.add("btn", "btn-primary");
     return $botonReset;
 }
 
@@ -54,7 +65,7 @@ function borrarInputsAnteriores($form) {
     while ($form.lastElementChild !== $botonOK) {
         $form.lastElementChild.remove();
     }
-    $resultados.className = "oculto";
+    ocultarElemento($resultados);
     $botonCalcular.removeAttribute("disabled");
 }
 
@@ -93,7 +104,7 @@ $botonCalcular.onclick = function () {
     };
     mostrarResultados(resultados);
     $formulario.appendChild($botonReset);
-    $botonReset.className = "";
+    mostrarElemento($botonReset);
     $botonCalcular.disabled = true;
     return false;
 };
