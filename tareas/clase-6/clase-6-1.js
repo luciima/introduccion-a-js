@@ -7,6 +7,8 @@ Punto bonus: Crear un botón para "empezar de nuevo" que empiece el proceso nuev
 */
 
 function crearIntegrante($formulario, numeroIntegrante) {
+    const contenedor = document.createElement("div");
+    contenedor.classList.add(`edades-integrantes`);
     const etiqueta = document.createElement("label");
     etiqueta.setAttribute("for", `edad-integrante-${numeroIntegrante}`);
     etiqueta.classList.add("form-label");
@@ -15,10 +17,9 @@ function crearIntegrante($formulario, numeroIntegrante) {
     input.classList.add("edades-integrantes", "form-control");
     input.id = `edad-integrante-${numeroIntegrante}`;
     input.type = "number";
-    const br = document.createElement("br");
-    $formulario.appendChild(br);
-    $formulario.appendChild(etiqueta);
-    $formulario.appendChild(input);
+    contenedor.appendChild(etiqueta);
+    contenedor.appendChild(input);
+    $formulario.appendChild(contenedor);
 }
 
 function crearBotonCalcular() {
@@ -41,7 +42,7 @@ function mostrarResultados(resultados) {
     for (let key in resultados) {
         document.querySelector(`#${key}`).textContent += ` ${resultados[key]}.`;
     }
-    mostrarElemento(document.querySelector("strong"));
+    mostrarElemento($resultados);
 }
 
 function extraerNumeros(elementos) {
@@ -61,11 +62,14 @@ function crearBotonReset() {
     return $botonReset;
 }
 
-function borrarInputsAnteriores($form) {
-    while ($form.lastElementChild !== $botonOK) {
-        $form.lastElementChild.remove();
-    }
+function borrarInputsAnteriores() {
+    const inputsAnteriores = document.querySelectorAll(".edades-integrantes");
+    inputsAnteriores.forEach(function (input) {
+        input.remove();
+    });
     ocultarElemento($resultados);
+    $botonCalcular.remove();
+    $botonReset.remove();
     $botonCalcular.removeAttribute("disabled");
 }
 
@@ -89,7 +93,7 @@ const $botonOK = document.querySelector("#boton-ok");
 const $botonCalcular = crearBotonCalcular();
 const $botonReset = crearBotonReset();
 const $formulario = document.querySelector("form");
-const $resultados = document.querySelector("strong");
+const $resultados = document.querySelector("#lista-resultados");
 
 $botonOK.onclick = function () {
     const cantidadIntegrantes = document.querySelector("#cantidad-integrantes").value;
@@ -104,19 +108,18 @@ $botonOK.onclick = function () {
     for (let i = 1; i <= cantidadIntegrantes; i++) {
         crearIntegrante($formulario, i);
     }
-    $formulario.appendChild(document.createElement("br"));
     $formulario.appendChild($botonCalcular);
     $botonOK.disabled = true;
     return false;
 };
 
 $botonCalcular.onclick = function () {
-    let edadesIntegrantes = document.querySelectorAll(".edades-integrantes");
-    edadesIntegrantes = extraerNumeros(edadesIntegrantes);
+    let edadesIntegrantes = document.querySelectorAll(".edades-integrantes input");
     let errores = {};
-    for (let i = 0; i < edadesIntegrantes.length; i++) {
-        errores[`edad-integrante-${i + 1}`] = validarEdad(edadesIntegrantes[i]);
-    }
+    edadesIntegrantes.forEach(function (edad) {
+        errores[edad.id] = validarEdad(edad.value);
+    });
+    edadesIntegrantes = extraerNumeros(edadesIntegrantes);
     manejarErrores(errores);
     hayErrores = document.querySelector(".is-invalid");
     if (hayErrores) {
@@ -135,7 +138,7 @@ $botonCalcular.onclick = function () {
 };
 
 $botonReset.onclick = function () {
-    borrarInputsAnteriores($formulario);
+    borrarInputsAnteriores();
     const resultadosIniciales = {
         "resultado-mayor-edad": "La mayor edad en su familia es ",
         "resultado-menor-edad": "La menor edad en su familia es ",
