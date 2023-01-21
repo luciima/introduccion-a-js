@@ -15,15 +15,17 @@
         <div class="row container">
             <div class="col-sm-8">
                 <form>
-                    <label for="cantidad-integrantes" class="form-label cantidad-integrantes">¿Cuántos integrantes hay en la familia?</label>
-                    <input type="number" class="form-control cantidad-integrantes" id="cantidad-integrantes"/> 
-                    <button class="btn btn-primary cantidad-integrantes" id="boton-ok">OK</button> 
+                    <div class="cantidad-integrantes">
+                        <label for="cantidad-integrantes" class="form-label">¿Cuántos integrantes hay en la familia?</label>
+                        <input type="number" class="form-control" id="cantidad-integrantes"/> 
+                        <button class="btn btn-primary" id="boton-ok">OK</button> 
+                    </div>
                 </form>
             </div> 
-            <div class="col-sm-4">
-                <strong class="oculto">
+            <div class="col-sm-4 oculto" id="lista-resultados">
+                <strong>
                 <h3>Resultados</h3>
-                    <ul id="lista-resultados">
+                    <ul>
                         <li id="resultado-mayor-edad">La mayor edad en su familia es </li>
                         <li id="resultado-menor-edad">La menor edad en su familia es </li>
                         <li id="resultado-promedio-edad">La edad promedio en su familia es de </li>
