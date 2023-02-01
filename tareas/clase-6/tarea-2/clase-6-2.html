@@ -14,10 +14,12 @@
         un integrante, presione Quitar. No se tendrán en cuenta los campos vacíos. Una vez que 
         termine, presione el botón Calcular y se mostrarán sus resultados.
     </p>
-    <button id="boton-agregar-integrante">Agregar</button>
-    <button id="boton-quitar-integrante" disabled>Quitar</button> 
     <form>
-        <label for="integrante-1">Salario 1</label><input type="number" class="salario-integrante" id="integrante-1" /> 
+        <button id="boton-agregar-integrante">Agregar</button>
+        <button id="boton-quitar-integrante" disabled>Quitar</button> 
+        <div class="salario-integrante" id="integrante-1">
+            <label>Salario 1</label><input type="number" /> 
+        </div>
     </form>
     <button id="boton-calcular">Calcular</button><button class="oculto" id="boton-reset">Empezar de nuevo</button>
     <strong class="oculto" id="resultados">

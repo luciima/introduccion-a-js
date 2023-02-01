@@ -9,17 +9,16 @@ Punto bonus: si hay inputs vacíos, ignorarlos en el cálculo (no contarlos como
 */
 
 function crearIntegrante($formulario, numeroIntegrante) {
+    const contenedor = document.createElement("div");
+    contenedor.id = `integrante-${numeroIntegrante}`;
+    contenedor.classList.add("salario-integrante");
     const etiqueta = document.createElement("label");
-    etiqueta.setAttribute("for", `integrante-${numeroIntegrante}`);
     etiqueta.innerText = `Salario ${numeroIntegrante}`;
     const input = document.createElement("input");
-    input.className = "salario-integrante";
-    input.id = `integrante-${numeroIntegrante}`;
     input.type = "number";
-    const br = document.createElement("br");
-    $formulario.appendChild(br);
-    $formulario.appendChild(etiqueta);
-    $formulario.appendChild(input);
+    contenedor.appendChild(etiqueta);
+    contenedor.appendChild(input);
+    $formulario.appendChild(contenedor);
 }
 
 function quitarIntegrante($formulario) {
@@ -80,7 +79,7 @@ $botonQuitar.onclick = function () {
     return false;
 };
 $botonCalcular.onclick = function () {
-    let $salariosAnuales = document.querySelectorAll(".salario-integrante");
+    let $salariosAnuales = document.querySelectorAll(".salario-integrante input");
     let salariosAnuales = extraerNumerosNoNulos($salariosAnuales);
     let salariosMensuales = calcularSalariosMensuales(salariosAnuales);
     const resultados = {
