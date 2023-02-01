@@ -21,10 +21,9 @@ function crearIntegrante($formulario, numeroIntegrante) {
     $formulario.appendChild(contenedor);
 }
 
-function quitarIntegrante($formulario) {
-    $formulario.lastElementChild.remove();
-    $formulario.lastElementChild.remove();
-    $formulario.lastElementChild.remove();
+function quitarIntegrante() {
+    const integrantes = document.querySelectorAll(".salario-integrante");
+    integrantes[integrantes.length - 1].remove();
 }
 
 function extraerNumerosNoNulos(elementos) {
@@ -71,7 +70,7 @@ $botonAgregar.onclick = function () {
     return false;
 };
 $botonQuitar.onclick = function () {
-    quitarIntegrante($formulario);
+    quitarIntegrante();
     const cantidadIntegrantes = document.querySelectorAll(".salario-integrante").length;
     if (cantidadIntegrantes === 1) {
         $botonQuitar.disabled = true;
@@ -97,7 +96,7 @@ $botonCalcular.onclick = function () {
 };
 $botonReset.onclick = function () {
     while (document.querySelectorAll(".salario-integrante").length !== 1) {
-        quitarIntegrante($formulario);
+        quitarIntegrante();
     }
     $botonAgregar.removeAttribute("disabled");
     $botonCalcular.removeAttribute("disabled");
