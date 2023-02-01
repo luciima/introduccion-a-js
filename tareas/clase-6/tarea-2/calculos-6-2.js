@@ -8,7 +8,7 @@ function calcularSalariosMensuales(salariosAnuales) {
 }
 
 function hallarMayorNumero(numeros) {
-    let mayorNumero = Number(numeros[0]);
+    let mayorNumero = numeros[0];
     for (let numero of numeros) {
         if (numero > mayorNumero) {
             mayorNumero = numero;
@@ -18,7 +18,7 @@ function hallarMayorNumero(numeros) {
 }
 
 function hallarMenorNumero(numeros) {
-    let menorNumero = Number(numeros[0]);
+    let menorNumero = numeros[0];
     for (let numero of numeros) {
         if (numero < menorNumero) {
             menorNumero = numero;
@@ -30,7 +30,7 @@ function hallarMenorNumero(numeros) {
 function hallarPromedio(numeros) {
     let suma = 0;
     for (let numero of numeros) {
-        suma += Number(numero);
+        suma += numero;
     }
     return suma / numeros.length;
 }
