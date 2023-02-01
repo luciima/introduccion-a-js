@@ -91,7 +91,7 @@ $botonCalcular.onclick = function () {
     $botonAgregar.disabled = true;
     $botonQuitar.disabled = true;
     $botonCalcular.disabled = true;
-    $botonReset.className = "";
+    $botonReset.classList.remove("oculto");
     return false;
 };
 $botonReset.onclick = function () {
@@ -100,8 +100,8 @@ $botonReset.onclick = function () {
     }
     $botonAgregar.removeAttribute("disabled");
     $botonCalcular.removeAttribute("disabled");
-    $botonReset.className = "oculto";
+    $botonReset.classList.add("oculto");
     resetearResultados();
-    $resultado.className = "oculto";
+    $resultado.classList.add("oculto");
     return false;
 };
