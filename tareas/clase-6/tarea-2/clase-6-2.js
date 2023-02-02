@@ -12,8 +12,10 @@ function crearIntegrante($formulario, numeroIntegrante) {
     const contenedor = document.createElement("div");
     contenedor.classList.add("salario-integrante");
     const etiqueta = document.createElement("label");
+    etiqueta.classList.add("form-label");
     etiqueta.innerText = `Salario ${numeroIntegrante}`;
     const input = document.createElement("input");
+    input.classList.add("form-control");
     input.id = `integrante-${numeroIntegrante}`;
     input.type = "number";
     contenedor.appendChild(etiqueta);
@@ -38,7 +40,7 @@ function mostrarResultados(resultados) {
     for (let key in resultados) {
         document.querySelector(`#${key}`).textContent += ` ${resultados[key]}.`;
     }
-    document.querySelector("strong").className = "";
+    document.querySelector("#resultados").classList.remove("invisible");
 }
 
 function resetearResultados() {
@@ -55,9 +57,9 @@ function resetearResultados() {
 function manejarErrores(errores) {
     for (let error in errores) {
         if (errores[error] !== "") {
-            document.querySelector(`#${error}`).classList.add("error");
+            document.querySelector(`#${error}`).classList.add("is-invalid");
         } else {
-            document.querySelector(`#${error}`).classList.remove("error");
+            document.querySelector(`#${error}`).classList.remove("is-invalid");
         }
     }
 }
@@ -112,7 +114,7 @@ $botonCalcular.onclick = function () {
     $botonAgregar.disabled = true;
     $botonQuitar.disabled = true;
     $botonCalcular.disabled = true;
-    $botonReset.classList.remove("oculto");
+    $botonReset.classList.remove("invisible");
     return false;
 };
 $botonReset.onclick = function () {
@@ -121,8 +123,8 @@ $botonReset.onclick = function () {
     }
     $botonAgregar.removeAttribute("disabled");
     $botonCalcular.removeAttribute("disabled");
-    $botonReset.classList.add("oculto");
+    $botonReset.classList.add("invisible");
     resetearResultados();
-    $resultado.classList.add("oculto");
+    $resultado.classList.add("invisible");
     return false;
 };
