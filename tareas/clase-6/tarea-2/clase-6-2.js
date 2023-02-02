@@ -26,12 +26,10 @@ function quitarIntegrante() {
     integrantes[integrantes.length - 1].remove();
 }
 
-function extraerNumerosNoNulos(elementos) {
+function extraerNumeros(elementos) {
     const numeros = [];
     for (let elemento of elementos) {
-        if (Number(elemento.value) !== 0) {
-            numeros.push(Number(elemento.value));
-        }
+        numeros.push(Number(elemento.value));
     }
     return numeros;
 }
@@ -90,7 +88,6 @@ $botonQuitar.onclick = function () {
 };
 $botonCalcular.onclick = function () {
     let $salariosAnuales = document.querySelectorAll(".salario-integrante input");
-    let salariosAnuales = extraerNumerosNoNulos($salariosAnuales);
     const errores = {};
     let cantidadErrores = 0;
     $salariosAnuales.forEach(function (salario) {
@@ -103,6 +100,7 @@ $botonCalcular.onclick = function () {
     if (cantidadErrores) {
         return false;
     }
+    let salariosAnuales = extraerNumeros($salariosAnuales);
     let salariosMensuales = calcularSalariosMensuales(salariosAnuales);
     const resultados = {
         "mayor-salario-anual": hallarMayorNumero(salariosAnuales),
