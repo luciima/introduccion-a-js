@@ -10,11 +10,11 @@ Punto bonus: si hay inputs vacíos, ignorarlos en el cálculo (no contarlos como
 
 function crearIntegrante($formulario, numeroIntegrante) {
     const contenedor = document.createElement("div");
-    contenedor.id = `integrante-${numeroIntegrante}`;
     contenedor.classList.add("salario-integrante");
     const etiqueta = document.createElement("label");
     etiqueta.innerText = `Salario ${numeroIntegrante}`;
     const input = document.createElement("input");
+    input.id = `integrante-${numeroIntegrante}`;
     input.type = "number";
     contenedor.appendChild(etiqueta);
     contenedor.appendChild(input);
@@ -54,12 +54,23 @@ function resetearResultados() {
         "El salario mensual promedio en su familia es de ";
 }
 
+function manejarErrores(errores) {
+    for (let error in errores) {
+        if (errores[error] !== "") {
+            document.querySelector(`#${error}`).classList.add("error");
+        } else {
+            document.querySelector(`#${error}`).classList.remove("error");
+        }
+    }
+}
+
 const $botonAgregar = document.querySelector("#boton-agregar-integrante");
 const $botonQuitar = document.querySelector("#boton-quitar-integrante");
 const $botonCalcular = document.querySelector("#boton-calcular");
 const $botonReset = document.querySelector("#boton-reset");
 const $formulario = document.querySelector("form");
 const $resultado = document.querySelector("#resultados");
+
 $botonAgregar.onclick = function () {
     const siguienteIntegrante =
         document.querySelectorAll(".salario-integrante").length + 1;
@@ -80,6 +91,18 @@ $botonQuitar.onclick = function () {
 $botonCalcular.onclick = function () {
     let $salariosAnuales = document.querySelectorAll(".salario-integrante input");
     let salariosAnuales = extraerNumerosNoNulos($salariosAnuales);
+    const errores = {};
+    let cantidadErrores = 0;
+    $salariosAnuales.forEach(function (salario) {
+        errores[salario.id] = validarSalario(salario.value);
+        if (errores[salario.id] !== "") {
+            cantidadErrores += 1;
+        }
+    });
+    manejarErrores(errores);
+    if (cantidadErrores) {
+        return false;
+    }
     let salariosMensuales = calcularSalariosMensuales(salariosAnuales);
     const resultados = {
         "mayor-salario-anual": hallarMayorNumero(salariosAnuales),

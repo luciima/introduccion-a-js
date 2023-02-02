@@ -19,3 +19,7 @@ form {
 p {
     text-align: justify;
 }
+
+.error {
+    border: 2px solid red;
+}
