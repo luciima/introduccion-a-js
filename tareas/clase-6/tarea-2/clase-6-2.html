@@ -6,33 +6,38 @@
     <title>Tarea 2 Clase 6</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='clase-6-2.css'>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
 </head>
-<body>
+<body class="container mx-auto bg-dark text-white" style="width: 650px;">
     <h1>Calculadora de salarios</h1>
     <p> Complete los siguientes campos con los salarios anuales de cada integrante de su familia
         que trabaje. Para agregar un integrante, presione el botón Agregar. Si desea quitar 
-        un integrante, presione Quitar. No se tendrán en cuenta los campos vacíos. Una vez que 
-        termine, presione el botón Calcular y se mostrarán sus resultados.
+        un integrante, presione Quitar. Una vez que termine, presione el botón Calcular y se 
+        mostrarán sus resultados.
     </p>
-    <form>
-        <button id="boton-agregar-integrante">Agregar</button>
-        <button id="boton-quitar-integrante" disabled>Quitar</button> 
+    <form class="container my-4">
+        <button class="btn btn-secondary" id="boton-agregar-integrante">Agregar</button>
+        <button class="btn btn-secondary" id="boton-quitar-integrante" disabled>Quitar</button> 
         <div class="salario-integrante" >
-            <label>Salario 1</label><input type="number" id="integrante-1" /> 
+            <label class="form-label">Salario 1</label><input class="form-control" type="number" id="integrante-1" /> 
         </div>
     </form>
-    <button id="boton-calcular">Calcular</button><button class="oculto" id="boton-reset">Empezar de nuevo</button>
-    <strong class="oculto" id="resultados">
-        <ul>
-            <li id="mayor-salario-anual">El mayor salario anual en su familia es </li>
-            <li id="menor-salario-anual">El menor salario anual en su familia es </li>
-            <li id="promedio-salario-anual">El salario anual promedio en su familia es de </li>
-            <li id="promedio-salario-mensual">El salario mensual promedio en su familia es de </li>
-        </ul>
-    </strong>
+    <button class="btn btn-primary" id="boton-calcular">Calcular</button><button class="btn btn-secondary invisible" id="boton-reset">Empezar de nuevo</button>
+    <div class="card invisible my-4 bg-secondary text-black" id="resultados">
+        <div class="card-body">
+            <h4 class="card-title">Resultados</h4>
+            <ul>
+                <li id="mayor-salario-anual">El mayor salario anual en su familia es </li>
+                <li id="menor-salario-anual">El menor salario anual en su familia es </li>
+                <li id="promedio-salario-anual">El salario anual promedio en su familia es de </li>
+                <li id="promedio-salario-mensual">El salario mensual promedio en su familia es de </li>
+            </ul>
+        </div>
+    </div>
     <script src='clase-6-2.js'></script>
     <script src='calculos-6-2.js'></script>
     <script src='validaciones-6-2.js'></script>
     <script src='pruebas-6-2.js'></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 </body>
 </html>
